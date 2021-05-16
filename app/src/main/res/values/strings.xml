@@ -3,4 +3,12 @@
     <string name="app_name">GithubFetch</string>
     <string name="go">Go</string>
     <string name="repository">Repository</string>
+    <string name="search_public_repositories">Search public repositories</string>
+    <string name="trending_now_header">Trending kotlin repos</string>
+    <string name="search_header">Results for %1$s</string>
+    <string name="retry">Retry</string>
+    <string name="cancel">Cancel</string>
+    <string name="no_network">There\'s no network available. Please, verify and try again.</string>
+    <string name="there_problem">Something is wrong</string>
+    <string name="github_repositories_fetch">GitHub fetch</string>
 </resources>

@@ -1,48 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:paddingBottom="@dimen/guideline">
 
-    <TextView
-        android:id="@+id/textViewRepo"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineStart"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/repository"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/guideline" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageViewOwner"
+        android:layout_width="@dimen/imageview_owner_size"
+        android:layout_height="@dimen/imageview_owner_size"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toTopOf="@id/guidelineTop"
+        app:shapeAppearanceOverlay="@style/roundedCorners" />
 
     <TextView
         android:id="@+id/textViewOwner"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="fr-al/"
-        app:layout_constraintTop_toBottomOf="@id/textViewRepo" />
-
-    <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        tools:text="Movies"
-        app:layout_constraintStart_toEndOf="@id/textViewOwner"
-        app:layout_constraintTop_toBottomOf="@id/textViewRepo" />
-
-    <TextView
-        android:id="@+id/textViewDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        tools:text="This repo is shine and bright"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewOwner" />
+        android:layout_marginStart="@dimen/default_view_spacing"
+        android:fontFamily="@font/montserrat_thin"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toStartOf="@id/textViewStars"
+        app:layout_constraintStart_toEndOf="@id/imageViewOwner"
+        app:layout_constraintTop_toTopOf="@id/guidelineTop"
+        tools:text="fr-al/" />
 
     <TextView
         android:id="@+id/textViewStars"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:text="3456"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
+        android:drawablePadding="@dimen/drawable_padding_spacing"
+        app:drawableStartCompat="@drawable/ic_star"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintTop_toTopOf="@id/guidelineTop"
+        tools:text="3456" />
+
+    <TextView
+        android:id="@+id/textViewName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/title_text_size"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/imageViewOwner"
+        tools:text="Movies" />
+
+    <TextView
+        android:id="@+id/textViewDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_view_spacing"
+        app:layout_constraintEnd_toEndOf="@id/guidelineEnd"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/textViewName"
+        tools:text="This repo is shine and bright" />
+
+    <TextView
+        android:id="@+id/textViewLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_view_spacing"
+        android:background="@drawable/shape_round_corners"
+        android:padding="@dimen/default_view_spacing"
+        app:layout_constraintStart_toStartOf="@id/guidelineStart"
+        app:layout_constraintTop_toBottomOf="@id/textViewDescription"
+        tools:text="Kotlin" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,13 +19,22 @@ class HomeViewModel(
 
     fun getRepositories(queryString: String): Flow<PagingData<Repository>> {
         val lastResult = currentSearchResult
+
         if (queryString == currentQueryValue && lastResult != null) {
             return lastResult
         }
+
         currentQueryValue = queryString
+
         val newResult: Flow<PagingData<Repository>> = apiRepository.getRepositories(queryString)
             .cachedIn(viewModelScope)
         currentSearchResult = newResult
+
         return newResult
+    }
+
+    fun getTrendingRepositories(): Flow<PagingData<Repository>> {
+        return apiRepository.getRepositories("language:kotlin", "stars", "desc")
+            .cachedIn(viewModelScope)
     }
 }

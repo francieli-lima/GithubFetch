@@ -7,7 +7,12 @@ import retrofit2.http.Query
 interface ApiInterface {
 
     @GET("search/repositories")
-    suspend fun getRepositories(@Query("q") query: String, @Query("page") page: Int): Search
+    suspend fun getRepositories(
+        @Query("q") query: String,
+        @Query("page") page: Int,
+        @Query("sort") sort: String? = null,
+        @Query("order") order: String? = null
+    ): Search
 }
 
-class Search (val items: List<Repository>)
+class Search(val items: List<Repository>)

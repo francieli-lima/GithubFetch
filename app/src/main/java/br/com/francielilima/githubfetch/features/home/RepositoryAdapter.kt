@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.francielilima.githubfetch.databinding.RowRepositoryBinding
 import br.com.francielilima.githubfetch.entities.Repository
 
-class RepositoryAdapter(private val onClick: (Repository) -> Unit): PagingDataAdapter<Repository, RepositoryAdapter.RepositoryViewHolder>(RepositoryComparator){
+class RepositoryAdapter(private val onClick: (Repository) -> Unit) :
+    PagingDataAdapter<Repository, RepositoryAdapter.RepositoryViewHolder>(RepositoryComparator) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
-        val binding = RowRepositoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            RowRepositoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return RepositoryViewHolder(binding, onClick)
     }
 
@@ -19,11 +21,19 @@ class RepositoryAdapter(private val onClick: (Repository) -> Unit): PagingDataAd
         getItem(position)?.let { holder.bind(it) }
     }
 
-    class RepositoryViewHolder(private val binding: RowRepositoryBinding, private val onClick: (Repository) -> Unit): RecyclerView.ViewHolder(binding.root) {
+    class RepositoryViewHolder(
+        private val binding: RowRepositoryBinding,
+        private val onClick: (Repository) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(repository: Repository) {
-            binding.textViewName.text = repository.name
-            binding.root.setOnClickListener { onClick(repository) }
+
+            with(binding) {
+                textViewName.text = repository.name
+                textViewOwner.text = repository.owner?.login
+                textViewStars.text = repository.stars.toString()
+                root.setOnClickListener { onClick(repository) }
+            }
         }
     }
 

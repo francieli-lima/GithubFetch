@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="input_margins">24dp</dimen>
+    <dimen name="input_corner_radius">8dp</dimen>
+    <dimen name="row_card_margins">16dp</dimen>
+    <dimen name="row_card_outer_margins">8dp</dimen>
+    <dimen name="guideline">32dp</dimen>
+    <dimen name="title_text_size">24sp</dimen>
+    <dimen name="default_view_spacing">8dp</dimen>
+    <dimen name="imageview_owner_size">20dp</dimen>
+    <dimen name="cardview_expanded_height">150dp</dimen>
+    <dimen name="title_size_row">16sp</dimen>
+    <dimen name="input_text_size">14sp</dimen>
+    <dimen name="subtitle_size_row">12sp</dimen>
+    <dimen name="drawable_padding_spacing">4dp</dimen>
+    <dimen name="trending_header_size">16sp</dimen>
+</resources>

@@ -10,7 +10,11 @@ import br.com.francielilima.githubfetch.features.home.RepositoryPagingSource
 import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
-    fun getRepositories(query: String): Flow<PagingData<Repository>>
+    fun getRepositories(
+        query: String,
+        sort: String? = null,
+        order: String? = null
+    ): Flow<PagingData<Repository>>
 }
 
 class ApiRepositoryImplementation(
@@ -19,13 +23,17 @@ class ApiRepositoryImplementation(
     private val dao: RepositoryDao
 ) : ApiRepository {
 
-    override fun getRepositories(query: String): Flow<PagingData<Repository>> {
+    override fun getRepositories(
+        query: String,
+        sort: String?,
+        order: String?
+    ): Flow<PagingData<Repository>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = 30,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { RepositoryPagingSource(apiInterface, query) }
+            pagingSourceFactory = { RepositoryPagingSource(apiInterface, query, sort, order) }
         ).flow
     }
 }

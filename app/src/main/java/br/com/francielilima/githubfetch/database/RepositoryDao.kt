@@ -13,5 +13,5 @@ interface RepositoryDao {
     fun load(): List<Repository>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun add(repository: Repository?)
+    fun insertAll(repositories: List<Repository>)
 }

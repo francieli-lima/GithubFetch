@@ -8,6 +8,8 @@ buildscript {
         room_version = "2.3.0"
         koin_version = "3.0.1"
         paging_version = "3.0.0"
+        mockk_version = "1.11.0"
+        picasso_version = "2.71828"
     }
     repositories {
         google()

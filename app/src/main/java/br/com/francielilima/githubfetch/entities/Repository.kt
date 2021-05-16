@@ -15,6 +15,8 @@ data class Repository(
     var owner: Owner? = null,
     var private: Boolean = false,
     var description: String? = "",
+    var language: String? = "",
     @SerializedName("html_url") var url: String = "",
-    @SerializedName("updated_at") var lastUpdate: String = ""
+    @SerializedName("updated_at") var lastUpdate: String = "",
+    @SerializedName("stargazers_count") var stars: Int = 0
 ) : Parcelable

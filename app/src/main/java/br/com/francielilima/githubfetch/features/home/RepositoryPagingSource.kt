@@ -9,14 +9,16 @@ import java.io.IOException
 
 class RepositoryPagingSource(
     private val apiInterface: ApiInterface,
-    private val query: String
+    private val query: String,
+    private val sort: String?,
+    private val order: String?
 ) : PagingSource<Int, Repository>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Repository> {
         val position = params.key ?: 1
         return try {
-            val repositories = apiInterface.getRepositories(query, position).items
-            val nextKey = if (repositories.isEmpty()) null else position + (params.loadSize / 20)
+            val repositories = apiInterface.getRepositories(query, position, sort, order).items
+            val nextKey = if (repositories.isEmpty()) null else position + (params.loadSize / 30)
 
             LoadResult.Page(
                 data = repositories,
@@ -29,6 +31,7 @@ class RepositoryPagingSource(
             return LoadResult.Error(exception)
         }
     }
+
     override fun getRefreshKey(state: PagingState<Int, Repository>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
