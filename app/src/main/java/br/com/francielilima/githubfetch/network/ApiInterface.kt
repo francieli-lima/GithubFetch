@@ -10,8 +10,7 @@ interface ApiInterface {
     suspend fun getRepositories(
         @Query("q") query: String,
         @Query("page") page: Int,
-        @Query("sort") sort: String? = null,
-        @Query("order") order: String? = null
+        @Query("per_page") pageSize: Int = 20
     ): Search
 }
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="input_margins">24dp</dimen>
+    <dimen name="empty_state_margins">32dp</dimen>
     <dimen name="input_corner_radius">8dp</dimen>
     <dimen name="row_card_margins">16dp</dimen>
     <dimen name="row_card_outer_margins">8dp</dimen>

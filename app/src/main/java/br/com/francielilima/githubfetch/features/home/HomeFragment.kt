@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -14,7 +13,9 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.francielilima.githubfetch.R
 import br.com.francielilima.githubfetch.databinding.FragmentHomeBinding
-import br.com.francielilima.githubfetch.extensions.isNetworkAvailable
+import br.com.francielilima.githubfetch.extensions.hide
+import br.com.francielilima.githubfetch.extensions.show
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -33,6 +34,8 @@ class HomeFragment : Fragment(), DialogInterface.OnClickListener {
         binding = FragmentHomeBinding.inflate(inflater)
         return binding.root
     }
+
+    private var coroutineJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,19 +72,22 @@ class HomeFragment : Fragment(), DialogInterface.OnClickListener {
         binding.recyclerViewRepositories.addItemDecoration(dividerItemDecoration)
 
         binding.recyclerViewRepositories.adapter = adapter
+
+        adapter.addLoadStateListener { state ->
+            binding.textViewEmptyState.hide()
+            if (state.append.endOfPaginationReached) {
+                if (adapter.itemCount < 1) binding.textViewEmptyState.show()
+            }
+        }
     }
 
     private fun loadRepositories() {
-        if (!requireContext().isNetworkAvailable()) {
-            showError(getString(R.string.no_network))
-            return
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
+        coroutineJob?.cancel()
+        coroutineJob = lifecycleScope.launch {
             val query = binding.inputSearch.text.toString().trim()
             val result =
                 if (query.isEmpty()) {
-                    binding.textViewHeader.text = getString(R.string.trending_now_header)
+                    binding.textViewHeader.text = getString(R.string.popular_repos)
                     homeViewModel.getTrendingRepositories()
                 } else {
                     binding.textViewHeader.text = getString(R.string.search_header, query)
@@ -92,15 +98,6 @@ class HomeFragment : Fragment(), DialogInterface.OnClickListener {
                 adapter.submitData(it)
             }
         }
-    }
-
-    private fun showError(message: String) {
-        AlertDialog.Builder(requireContext())
-            .setMessage(message)
-            .setTitle(getString(R.string.there_problem))
-            .setPositiveButton(getString(R.string.retry), this)
-            .setCancelable(false)
-            .show()
     }
 
     override fun onClick(dialog: DialogInterface?, which: Int) {

@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = "repository")
 @Parcelize
 data class Repository(
-    @PrimaryKey var id: String = "",
+    @PrimaryKey var id: Long = 0,
     var name: String = "",
     @SerializedName("full_name") var fullName: String = "",
     var owner: Owner? = null,

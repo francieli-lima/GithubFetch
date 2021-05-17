@@ -1,5 +1,6 @@
 package br.com.francielilima.githubfetch.database
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -9,9 +10,16 @@ import br.com.francielilima.githubfetch.entities.Repository
 @Dao
 interface RepositoryDao {
 
-    @Query("SELECT * from repository")
-    fun load(): List<Repository>
+    @Query("SELECT * FROM repository WHERE name LIKE :query OR description LIKE :query ORDER BY stars DESC, name ASC")
+    fun loadSearch(query: String): PagingSource<Int, Repository>
+
+    @Query("SELECT * FROM repository ORDER BY stars DESC, name ASC")
+    fun loadSearch(): PagingSource<Int, Repository>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(repositories: List<Repository>)
+    suspend fun insertAll(repositories: List<Repository>)
+
+    @Query("DELETE FROM repository")
+    suspend fun deleteAll()
+
 }

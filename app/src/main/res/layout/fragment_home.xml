@@ -98,4 +98,20 @@
         app:layout_constraintTop_toBottomOf="@id/textViewHeader"
         tools:listitem="@layout/row_repository" />
 
+    <TextView
+        android:id="@+id/textViewEmptyState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/empty_state_margins"
+        android:layout_marginTop="@dimen/default_view_spacing"
+        android:layout_marginEnd="@dimen/empty_state_margins"
+        android:layout_marginBottom="@dimen/default_view_spacing"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center_vertical"
+        android:text="@string/nothing_to_see_here"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewHeader" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

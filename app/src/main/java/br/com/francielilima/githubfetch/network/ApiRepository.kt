@@ -1,41 +1,51 @@
 package br.com.francielilima.githubfetch.network
 
-import android.content.Context
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import br.com.francielilima.githubfetch.database.RepositoryDao
+import br.com.francielilima.githubfetch.database.Database
 import br.com.francielilima.githubfetch.entities.Repository
-import br.com.francielilima.githubfetch.features.home.RepositoryPagingSource
+import br.com.francielilima.githubfetch.features.home.RepositoryMediator
 import kotlinx.coroutines.flow.Flow
 
 interface ApiRepository {
-    fun getRepositories(
-        query: String,
-        sort: String? = null,
-        order: String? = null
+
+    fun loadRepositories(
+        query: String = ""
     ): Flow<PagingData<Repository>>
 }
 
+@OptIn(ExperimentalPagingApi::class)
 class ApiRepositoryImplementation(
     private val apiInterface: ApiInterface,
-    private val context: Context,
-    private val dao: RepositoryDao
+    private val database: Database
 ) : ApiRepository {
 
-    override fun getRepositories(
-        query: String,
-        sort: String?,
-        order: String?
+    override fun loadRepositories(
+        query: String
     ): Flow<PagingData<Repository>> {
+
         return Pager(
             config = PagingConfig(
-                pageSize = 30,
+                pageSize = 20,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { RepositoryPagingSource(apiInterface, query, sort, order) }
+            remoteMediator = RepositoryMediator(
+                apiInterface,
+                query,
+                database
+            ),
+            pagingSourceFactory = {
+                val broaderQuery = "%$query%"
+                if (query.isEmpty()) database.repositoryDao()
+                    .loadSearch() else database.repositoryDao().loadSearch(broaderQuery)
+            }
         ).flow
     }
+
+
 }
+
 
 

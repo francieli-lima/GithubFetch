@@ -1,10 +1,10 @@
 package br.com.francielilima.githubfetch
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import br.com.francielilima.githubfetch.BuildConfig.DEBUG
 import br.com.francielilima.githubfetch.database.Database
+import br.com.francielilima.githubfetch.database.NodeDao
 import br.com.francielilima.githubfetch.database.RepositoryDao
 import br.com.francielilima.githubfetch.features.home.HomeViewModel
 import br.com.francielilima.githubfetch.network.ApiInterface
@@ -12,7 +12,6 @@ import br.com.francielilima.githubfetch.network.ApiRepository
 import br.com.francielilima.githubfetch.network.ApiRepositoryImplementation
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -59,18 +58,22 @@ val networkModule = module {
 
 val databaseModule = module {
 
-    fun provideDatabase(application: Application): Database {
-        return Room.databaseBuilder(application, Database::class.java, "database.db")
-            .fallbackToDestructiveMigration()
+    fun provideDatabase(context: Context): Database {
+        return Room.databaseBuilder(context.applicationContext, Database::class.java, "database.db")
             .build()
     }
 
-    fun provideCountriesDao(database: Database): RepositoryDao {
+    fun provideRepositoryDao(database: Database): RepositoryDao {
         return database.repositoryDao()
     }
 
-    single { provideDatabase(androidApplication()) }
-    single { provideCountriesDao(get()) }
+    fun provideNodeDao(database: Database): NodeDao {
+        return database.nodeDao()
+    }
+
+    single { provideDatabase(androidContext()) }
+    single { provideRepositoryDao(get()) }
+    single { provideNodeDao(get()) }
 }
 
 
@@ -78,12 +81,11 @@ val repositoryModule = module {
 
     fun provideApiRepository(
         apiInterface: ApiInterface,
-        context: Context,
-        dao: RepositoryDao
+        database: Database
     ): ApiRepository {
-        return ApiRepositoryImplementation(apiInterface, context, dao)
+        return ApiRepositoryImplementation(apiInterface, database)
     }
-    single { provideApiRepository(get(), androidContext(), get()) }
+    single { provideApiRepository(get(), get()) }
 
 }
 
