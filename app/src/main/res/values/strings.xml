@@ -1,10 +1,9 @@
 <resources>
     <string name="base_url">https://api.github.com/</string>
     <string name="app_name">GithubFetch</string>
-    <string name="go">Go</string>
     <string name="repository">Repository</string>
     <string name="search_public_repositories">Search public repositories</string>
-    <string name="popular_repos">Popular repos</string>
+    <string name="popular_repos">Popular repositories</string>
     <string name="search_header">Results for %1$s</string>
     <string name="retry">Retry</string>
     <string name="cancel">Cancel</string>

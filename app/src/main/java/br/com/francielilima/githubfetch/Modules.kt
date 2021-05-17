@@ -76,7 +76,6 @@ val databaseModule = module {
     single { provideNodeDao(get()) }
 }
 
-
 val repositoryModule = module {
 
     fun provideApiRepository(
