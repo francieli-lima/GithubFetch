@@ -21,5 +21,4 @@ interface RepositoryDao {
 
     @Query("DELETE FROM repository")
     suspend fun deleteAll()
-
 }

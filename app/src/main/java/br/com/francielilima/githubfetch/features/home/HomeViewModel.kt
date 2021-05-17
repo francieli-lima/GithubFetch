@@ -11,23 +11,23 @@ class HomeViewModel(
     private val apiRepository: ApiRepository
 ) : ViewModel(), LifecycleObserver {
 
-    private var currentQueryValue: String? = null
+    private var currentQuery: String? = null
 
-    private var currentSearchResult: Flow<PagingData<Repository>>? = null
+    private var currentResult: Flow<PagingData<Repository>>? = null
 
     fun getRepositories(query: String): Flow<PagingData<Repository>> {
-        val lastResult = currentSearchResult
+        val lastResult = currentResult
 
-        if (query == currentQueryValue && lastResult != null) {
+        if (query == currentQuery && lastResult != null) {
             return lastResult
         }
 
-        currentQueryValue = query
+        val result: Flow<PagingData<Repository>> = apiRepository.loadRepositories(query)
 
-        val newResult: Flow<PagingData<Repository>> = apiRepository.loadRepositories(query)
-        currentSearchResult = newResult
+        currentQuery = query
+        currentResult = result
 
-        return newResult
+        return result
     }
 
     fun getTrendingRepositories(): Flow<PagingData<Repository>> {

@@ -10,6 +10,7 @@ buildscript {
         paging_version = "3.0.0"
         mockk_version = "1.11.0"
         picasso_version = "2.71828"
+        coroutines_test_version = "1.5.0"
     }
     repositories {
         google()

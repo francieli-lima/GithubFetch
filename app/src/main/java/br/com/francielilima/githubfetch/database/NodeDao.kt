@@ -17,6 +17,4 @@ interface NodeDao {
 
     @Query("DELETE FROM page")
     suspend fun deleteAll()
-
-
 }
